@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade {
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            border: 4px solid #000;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            if (!loadingScreen || !mainContent) return;
+            setTimeout(function() {
+                loadingScreen.classList.remove('fade');
+                loadingScreen.style.opacity = '0';
+                setTimeout(function() {
+                    loadingScreen.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                }, 500);
+            }, 1000);
+        };
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = `Signed up as "${username}". Please ask admin to add to 123.html.`;
+            messageDiv.className = 'text-green-500 text-sm mt-2';
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div id="loading-screen" class="absolute inset-0 flex items-center justify-center bg-white fade">
+        <div class="spinner"></div>
+    </div>
+    <div id="main-content" class="text-center hidden">
+        <h1 class="text-5xl font-bold mb-6">Sign Up</h1>
+        <form class="space-y-4" onsubmit="handleSignup(event)">
+            <div>
+                <input type="text" id="username" placeholder="Username" class="w-80 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+            </div>
+            <div>
+                <input type="password" id="password" placeholder="Password" class="w-80 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600" required>
+            </div>
+            <div>
+                <button type="submit" class="w-64 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Sign Up</button>
+            </div>
+        </form>
+        <div id="message" class="text-sm mt-2"></div>
+        <div class="text-black text-sm mt-4">
+            Already have an account? <a href="index.html" class="underline">Login</a>
+        </div>
+    </div>
+</body>
+</html>
